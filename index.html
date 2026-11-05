@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P Venkata Siva Ajay – Embedded systems builder</title>
+<meta name="description" content="EEE student building embedded systems: ESP32, STM32, Embedded C, PCB design and hardware projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --board:#EEF2EE;
+  --ink:#10201C;
+  --trace:#0E5A4F;
+  --gold:#C99A1E;
+  --mist:#C9D3CC;
+  --muted:#4B5C56;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--board);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.65}
+a{color:var(--trace);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--ink)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:2px}
+.wrap{max-width:960px;margin:0 auto;padding:0 1.5rem}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;font-family:var(--display);font-weight:700}
+header.top nav{display:flex;gap:1.5rem;font-family:var(--body);font-weight:500;font-size:.95rem}
+header.top nav a{color:var(--ink);text-decoration:none}
+header.top nav a:hover{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:6px;text-decoration-thickness:2px}
+
+.hero{padding:3.5rem 0 2.5rem}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,8vw,5.2rem);line-height:1.02;letter-spacing:-.025em;margin:0 0 1.25rem;max-width:14ch}
+.lead{font-size:1.2rem;max-width:34rem;color:var(--muted);margin:0}
+.signal{margin:3rem 0 .75rem;border-top:1px solid var(--mist);border-bottom:1px solid var(--mist);padding:1.25rem 0;overflow:hidden}
+.signal svg{display:block;width:100%;height:auto}
+.signal .wave{fill:none;stroke:var(--trace);stroke-width:3;stroke-linejoin:miter;stroke-linecap:square}
+.signal .base{stroke:var(--mist);stroke-width:1;stroke-dasharray:4 6}
+.signal .tick{stroke:var(--gold);stroke-width:2}
+.caption{font-size:.9rem;color:var(--muted);max-width:40rem;margin:0}
+@media (prefers-reduced-motion:no-preference){
+  .signal .wave{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.8s cubic-bezier(.5,.1,.2,1) .3s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+}
+
+section{padding:3.5rem 0 1rem}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:-.015em;margin:0 0 1.5rem}
+.row{display:grid;grid-template-columns:minmax(0,15rem) 1fr;gap:.5rem 2.5rem;padding:1.4rem 0;border-top:1px solid var(--mist)}
+.row:last-child{border-bottom:1px solid var(--mist)}
+.row h3{font-family:var(--display);font-weight:700;font-size:1.2rem;line-height:1.3;margin:0}
+.row p{margin:0 0 .5rem;max-width:36rem}
+.row.lead-row h3{font-size:1.45rem}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:.3rem 0 0;padding:0;list-style:none}
+.tags li{font-size:.85rem;padding:.1rem .6rem;border:1px solid var(--trace);border-radius:99px;color:var(--trace)}
+.win{display:inline-block;border-left:3px solid var(--gold);padding-left:.6rem;margin:.2rem 0 .5rem;font-weight:500}
+
+.about p{max-width:38rem}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1.5rem 2rem;margin-top:1.5rem}
+.facts dt{font-family:var(--display);font-weight:700}
+.facts dd{margin:0;color:var(--muted)}
+
+.contact p{max-width:34rem}
+.btn{display:inline-block;background:var(--trace);color:#fff;padding:.7rem 1.3rem;border-radius:4px;text-decoration:none;font-weight:500}
+.btn:hover{background:var(--ink);color:#fff}
+.links{margin-top:1rem;display:flex;gap:1.25rem;flex-wrap:wrap}
+footer{margin-top:4rem;padding:1.5rem 0 2.5rem;border-top:1px solid var(--mist);color:var(--muted);font-size:.9rem}
+@media (max-width:640px){
+  .row{grid-template-columns:1fr}
+  header.top nav{gap:1rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span>Ajay</span>
+    <nav aria-label="Main">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>P Venkata Siva Ajay</h1>
+      <p class="lead">I build hardware that senses, transmits and moves: drones, light-based links, IoT devices and robots. Electrical engineering student, heading into embedded firmware.</p>
+
+      <div class="signal" role="img" aria-label="The letters A J A Y drawn as a Manchester-encoded digital signal">
+        <svg id="wave" viewBox="0 0 1280 140" preserveAspectRatio="none"></svg>
+      </div>
+      <p class="caption">The letters “AJAY” as a Manchester-encoded signal, the same line code I used in my LiFi text transmitter.</p>
+    </div>
+
+    <section id="projects">
+      <h2>Projects</h2>
+
+      <div class="row lead-row">
+        <h3>Gait monitoring system</h3>
+        <div>
+          <span class="win">Top 50 in an MSME incubator program</span>
+          <p>Pressure sensors feed an ESP32, which sends the readings to the cloud for analysis.</p>
+          <ul class="tags"><li>ESP32</li><li>Sensors</li><li>Cloud analytics</li></ul>
+        </div>
+      </div>
+
+      <div class="row lead-row">
+        <h3>WiFi CSI human detection</h3>
+        <div>
+          <span class="win">Published in IRJET</span>
+          <p>Detecting people from the way their bodies change WiFi channel state information.</p>
+          <ul class="tags"><li>WiFi CSI</li><li>Research paper</li></ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <h3>LiFi text transmitter</h3>
+        <div>
+          <p>Sends text over light using Manchester encoding.</p>
+          <ul class="tags"><li>Manchester encoding</li><li>Optical link</li></ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <h3>IoT smart mining helmet</h3>
+        <div>
+          <p>A wearable that reports data from the helmet to ThingSpeak.</p>
+          <ul class="tags"><li>ESP32</li><li>ThingSpeak</li><li>IoT</li></ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <h3>FPV drone</h3>
+        <div><p>Built from parts into a flying first-person-view drone.</p></div>
+      </div>
+
+      <div class="row">
+        <h3>Tesla coil</h3>
+        <div><p>A high-voltage resonant transformer built from scratch.</p></div>
+      </div>
+
+      <div class="row">
+        <h3>Electric bike</h3>
+        <div><p>A bicycle converted to electric drive.</p></div>
+      </div>
+
+      <div class="row">
+        <h3>Also built</h3>
+        <div>
+          <p>A gas detection system, toll gate automation, and ESP32-based robots.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <h2>About</h2>
+      <p>I'm a B.Tech student in Electrical and Electronics Engineering at Godavari Institute of Engineering and Technology (GIET), Rajanagaram, graduating in June 2027. I learn by building, and I'm aiming for firmware engineering work built around STM32 and Embedded C.</p>
+      <dl class="facts">
+        <div><dt>Focus</dt><dd>STM32 and Embedded C</dd></div>
+        <div><dt>Also work with</dt><dd>ESP32, IoT, PCB design</dd></div>
+        <div><dt>Certified</dt><dd>NPTEL: Electronic Systems Design and PCB Design</dd></div>
+        <div><dt>Studying</dt><dd>B.Tech EEE, GIET, class of 2027</dd></div>
+      </dl>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Contact</h2>
+      <p>Looking for an embedded or firmware internship. Send me a message about a role, a project or a collaboration.</p>
+      <a class="btn" href="mailto:pvenkatasivaajay@gmail.com">Email me</a>
+      <div class="links">
+        <a href="https://github.com/pvenkatasivaajay">GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="yr">2026</span> P Venkata Siva Ajay</footer>
+</div>
+
+<script>
+(function(){
+  var text="AJAY", cell=20, hi=24, lo=116, x=0, level=null, d="", ticks="";
+  var svg=document.getElementById("wave");
+  var NS="http://www.w3.org/2000/svg";
+  function seg(y){
+    if(level===null){d+="M0 "+y;}
+    else if(level!==y){d+=" V"+y;}
+    level=y; d+=" H"+(x+cell);
+  }
+  for(var c=0;c<text.length;c++){
+    var code=text.charCodeAt(c);
+    for(var b=7;b>=0;b--){
+      var bit=(code>>b)&1;
+      var first=bit?lo:hi, second=bit?hi:lo;
+      var bx=x;
+      var tk=document.createElementNS(NS,"line");
+      tk.setAttribute("x1",bx);tk.setAttribute("x2",bx);tk.setAttribute("y1",hi-12);tk.setAttribute("y2",hi-4);
+      tk.setAttribute("class","tick");
+      if(b===7){tk.setAttribute("y1",hi-20);}
+      svg.appendChild(tk);
+      seg(first); x+=cell;
+      seg(second); x+=cell;
+    }
+  }
+  var base=document.createElementNS(NS,"line");
+  base.setAttribute("x1",0);base.setAttribute("x2",x);base.setAttribute("y1",(hi+lo)/2);base.setAttribute("y2",(hi+lo)/2);
+  base.setAttribute("class","base");
+  svg.insertBefore(base,svg.firstChild);
+  var p=document.createElementNS(NS,"path");
+  p.setAttribute("d",d);p.setAttribute("class","wave");p.setAttribute("pathLength","1");
+  p.setAttribute("vector-effect","non-scaling-stroke");
+  svg.appendChild(p);
+  svg.setAttribute("viewBox","0 0 "+x+" 140");
+  document.getElementById("yr").textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
