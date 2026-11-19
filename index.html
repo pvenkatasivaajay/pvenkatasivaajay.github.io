@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,134 +9,493 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --board:#EEF2EE;
-  --panel:#E2EAE4;
-  --ink:#10201C;
-  --trace:#0E5A4F;
-  --gold:#C99A1E;
-  --mist:#C9D3CC;
-  --muted:#4B5C56;
-  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
-  --body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--board);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.65}
-a{color:var(--trace);text-decoration-thickness:1px;text-underline-offset:3px}
-a:hover{color:var(--ink)}
-a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:2px}
-.wrap{max-width:960px;margin:0 auto;padding:0 1.5rem}
-header.top{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;font-family:var(--display);font-weight:700}
-header.top nav{display:flex;gap:1.5rem;font-family:var(--body);font-weight:500;font-size:.95rem}
-header.top nav a{color:var(--ink);text-decoration:none}
-header.top nav a:hover{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:6px;text-decoration-thickness:2px}
-
-.hero{padding:3.5rem 0 2.5rem}
-h1{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,8vw,5.2rem);line-height:1.02;letter-spacing:-.025em;margin:0 0 1.25rem;max-width:14ch}
-.lead{font-size:1.2rem;max-width:34rem;color:var(--muted);margin:0}
-.signal{margin:3rem 0 .75rem;border-top:1px solid var(--mist);border-bottom:1px solid var(--mist);padding:1.25rem 0;overflow:hidden}
-.signal svg{display:block;width:100%;height:auto}
-.signal .wave{fill:none;stroke:var(--trace);stroke-width:3;stroke-linejoin:miter;stroke-linecap:square}
-.signal .base{stroke:var(--mist);stroke-width:1;stroke-dasharray:4 6}
-.signal .tick{stroke:var(--gold);stroke-width:2}
-.caption{font-size:.9rem;color:var(--muted);max-width:40rem;margin:0}
-@media (prefers-reduced-motion:no-preference){
-  .signal .wave{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.8s cubic-bezier(.5,.1,.2,1) .3s forwards}
-  @keyframes draw{to{stroke-dashoffset:0}}
+/* =========================================================
+   THEME TOKENS
+   ========================================================= */
+:root {
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body:    'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --radius:  8px;
+  --transition: .35s cubic-bezier(.4,0,.2,1);
 }
 
-section{padding:3.5rem 0 1rem}
-h2{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:-.015em;margin:0 0 1.5rem}
+/* ---------- dark (default) ---------- */
+[data-theme="dark"] {
+  --bg:       #0C1210;
+  --surface:  #151E1A;
+  --surface2: #1C2824;
+  --ink:      #E4EDE8;
+  --muted:    #8A9E95;
+  --trace:    #2DD4A8;
+  --gold:     #E0AC2B;
+  --border:   #263530;
+  --card-bg:  #151E1A;
+  --btn-bg:   #2DD4A8;
+  --btn-fg:   #0C1210;
+  --code-bg:  #1C2824;
+  --shadow:   0 2px 24px rgba(0,0,0,.45);
+  --glow:     0 0 40px rgba(45,212,168,.08);
+}
 
-/* art / photo tiles: abstract art underneath, photo on top if the file exists */
-.thumb{position:relative;overflow:hidden;background:var(--panel);border-radius:4px;aspect-ratio:3/2}
-.thumb svg,.thumb img{position:absolute;inset:0;width:100%;height:100%}
-.thumb img{object-fit:cover}
+/* ---------- light ---------- */
+[data-theme="light"] {
+  --bg:       #F4F7F5;
+  --surface:  #E8EEEA;
+  --surface2: #DCE4DF;
+  --ink:      #10201C;
+  --muted:    #4B5C56;
+  --trace:    #0E7A63;
+  --gold:     #B8891A;
+  --border:   #C9D3CC;
+  --card-bg:  #FFFFFF;
+  --btn-bg:   #0E7A63;
+  --btn-fg:   #FFFFFF;
+  --code-bg:  #E8EEEA;
+  --shadow:   0 2px 20px rgba(0,0,0,.08);
+  --glow:     none;
+}
 
-.feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.25rem 1.75rem;margin-bottom:3rem}
-.card .thumb{margin-bottom:1rem;aspect-ratio:3/2}
-.card h3{font-family:var(--display);font-weight:700;font-size:1.45rem;line-height:1.25;margin:0 0 .35rem}
-.card p{margin:0 0 .5rem}
-.more-title{font-family:var(--display);font-weight:700;font-size:1.15rem;margin:0 0 .75rem;color:var(--muted)}
-.row{display:grid;grid-template-columns:13rem 1fr;gap:.75rem 2rem;padding:1.4rem 0;border-top:1px solid var(--mist);align-items:start}
-.row:last-child{border-bottom:1px solid var(--mist)}
-.row h3{font-family:var(--display);font-weight:700;font-size:1.25rem;line-height:1.3;margin:0 0 .35rem}
-.row p{margin:0 0 .5rem;max-width:36rem}
-.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:.3rem 0 0;padding:0;list-style:none}
-.tags li{font-size:.85rem;padding:.1rem .6rem;border:1px solid var(--trace);border-radius:99px;color:var(--trace)}
-.win{display:inline-block;border-left:3px solid var(--gold);padding-left:.6rem;margin:.1rem 0 .5rem;font-weight:500}
+/* =========================================================
+   RESET & BASE
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  transition: background var(--transition), color var(--transition);
+}
+a { color: var(--trace); text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color .2s; }
+a:hover { color: var(--ink); }
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 2px;
+}
+img { display: block; max-width: 100%; }
 
-.about{display:grid;grid-template-columns:13rem 1fr;gap:1rem 2rem;align-items:start}
-.about h2{grid-column:1/-1;margin-bottom:.5rem}
-.portrait{aspect-ratio:4/5}
-.about p{max-width:38rem;margin-top:0}
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1.25rem 2rem;margin:1.5rem 0 0}
-.facts dt{font-family:var(--display);font-weight:700}
-.facts dd{margin:0;color:var(--muted)}
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
 
-.contact p{max-width:34rem}
-.btn{display:inline-block;background:var(--trace);color:#fff;padding:.7rem 1.3rem;border-radius:4px;text-decoration:none;font-weight:500}
-.btn:hover{background:var(--ink);color:#fff}
-.links{margin-top:1rem;display:flex;gap:1.25rem;flex-wrap:wrap}
-footer{margin-top:4rem;padding:1.5rem 0 2.5rem;border-top:1px solid var(--mist);color:var(--muted);font-size:.9rem}
-@media (max-width:700px){
-  .row,.about,.feature-grid{grid-template-columns:1fr}
-  .portrait{max-width:14rem}
-  header.top nav{gap:1rem}
+/* =========================================================
+   HEADER
+   ========================================================= */
+header.top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 0;
+  font-family: var(--display); font-weight: 700;
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition), border-color var(--transition);
+}
+header.top .logo {
+  font-size: 1.15rem;
+  letter-spacing: -.01em;
+  color: var(--trace);
+}
+header.top nav {
+  display: flex; align-items: center; gap: 1.5rem;
+  font-family: var(--body); font-weight: 500; font-size: .95rem;
+}
+header.top nav a {
+  color: var(--ink); text-decoration: none;
+  position: relative; padding-bottom: 2px;
+}
+header.top nav a::after {
+  content: ''; position: absolute; left: 0; bottom: -2px;
+  width: 0; height: 2px; background: var(--gold);
+  transition: width .25s ease;
+}
+header.top nav a:hover::after { width: 100%; }
+
+/* theme toggle */
+.theme-toggle {
+  background: var(--surface2); border: 1px solid var(--border);
+  width: 42px; height: 24px; border-radius: 99px;
+  cursor: pointer; position: relative;
+  transition: background var(--transition), border-color var(--transition);
+  flex-shrink: 0;
+}
+.theme-toggle::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--trace);
+  transition: transform .3s ease, background .3s ease;
+}
+[data-theme="light"] .theme-toggle::after {
+  transform: translateX(18px);
+  background: var(--gold);
+}
+.theme-toggle .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero { padding: 5rem 0 3rem; }
+h1 {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(2.6rem, 8vw, 5.2rem);
+  line-height: 1.02; letter-spacing: -.03em;
+  margin: 0 0 1.25rem; max-width: 14ch;
+}
+h1 .accent { color: var(--trace); }
+.lead {
+  font-size: 1.2rem; max-width: 36rem; color: var(--muted); margin: 0;
+  line-height: 1.6;
+}
+
+/* status pill */
+.status {
+  display: inline-flex; align-items: center; gap: .5rem;
+  margin-top: 1.25rem;
+  font-size: .88rem; font-weight: 500; color: var(--trace);
+  background: var(--surface); border: 1px solid var(--border);
+  padding: .35rem .9rem; border-radius: 99px;
+}
+.status .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--trace);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .35; }
+}
+
+/* signal wave */
+.signal {
+  margin: 3rem 0 .75rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 0; overflow: hidden;
+}
+.signal svg { display: block; width: 100%; height: auto; }
+.signal .wave { fill: none; stroke: var(--trace); stroke-width: 3; stroke-linejoin: miter; stroke-linecap: square; }
+.signal .base { stroke: var(--border); stroke-width: 1; stroke-dasharray: 4 6; }
+.signal .tick  { stroke: var(--gold); stroke-width: 2; }
+.caption { font-size: .9rem; color: var(--muted); max-width: 40rem; margin: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .signal .wave {
+    stroke-dasharray: 1; stroke-dashoffset: 1;
+    animation: draw 2.8s cubic-bezier(.5,.1,.2,1) .3s forwards;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+}
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+section { padding: 4rem 0 1.5rem; }
+h2 {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  letter-spacing: -.015em; margin: 0 0 1.5rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+h2::before {
+  content: ''; display: inline-block;
+  width: 4px; height: 1.1em; background: var(--trace);
+  border-radius: 2px; flex-shrink: 0;
+}
+
+/* =========================================================
+   PROJECT TILES
+   ========================================================= */
+.thumb {
+  position: relative; overflow: hidden;
+  background: var(--surface); border-radius: var(--radius);
+  aspect-ratio: 3/2;
+  border: 1px solid var(--border);
+  transition: border-color .2s, box-shadow .2s;
+}
+.thumb svg, .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.thumb img { object-fit: cover; }
+
+.feature-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.25rem 1.75rem; margin-bottom: 3rem;
+}
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 0 1.25rem;
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background var(--transition);
+  box-shadow: var(--glow);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--trace);
+}
+.card .thumb { border-radius: 0; border: none; border-bottom: 1px solid var(--border); }
+.card .card-body { padding: 1rem 1.25rem 0; }
+.card h3 {
+  font-family: var(--display); font-weight: 700;
+  font-size: 1.35rem; line-height: 1.25; margin: 0 0 .35rem;
+}
+.card p { margin: 0 0 .75rem; color: var(--muted); }
+
+.tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.tags li {
+  font-size: .8rem; padding: .15rem .6rem;
+  border: 1px solid var(--trace); border-radius: 99px; color: var(--trace);
+  background: transparent;
+  transition: background .2s, color .2s;
+}
+.tags li:hover { background: var(--trace); color: var(--bg); }
+
+.more-title {
+  font-family: var(--display); font-weight: 700;
+  font-size: 1.15rem; margin: 0 0 .75rem; color: var(--muted);
+}
+
+.row {
+  display: grid; grid-template-columns: 13rem 1fr;
+  gap: .75rem 2rem; padding: 1.4rem 0;
+  border-top: 1px solid var(--border); align-items: start;
+  transition: background .2s;
+}
+.row:last-child { border-bottom: 1px solid var(--border); }
+.row:hover { background: var(--surface); border-radius: var(--radius); padding-left: .75rem; padding-right: .75rem; }
+.row h3 { font-family: var(--display); font-weight: 700; font-size: 1.25rem; line-height: 1.3; margin: 0 0 .35rem; }
+.row p { margin: 0 0 .5rem; max-width: 36rem; color: var(--muted); }
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+.about {
+  display: grid; grid-template-columns: 13rem 1fr;
+  gap: 1rem 2rem; align-items: start;
+}
+.about h2 { grid-column: 1/-1; margin-bottom: .5rem; }
+.portrait { aspect-ratio: 4/5; }
+.about p { max-width: 38rem; margin-top: 0; }
+
+.facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.25rem 2rem; margin: 1.5rem 0 0;
+}
+.facts > div {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: .85rem 1rem;
+  transition: background var(--transition), border-color var(--transition);
+}
+.facts dt { font-family: var(--display); font-weight: 700; font-size: .9rem; color: var(--trace); text-transform: uppercase; letter-spacing: .04em; }
+.facts dd { margin: .2rem 0 0; color: var(--ink); }
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact p { max-width: 34rem; color: var(--muted); }
+.btn {
+  display: inline-block;
+  background: var(--btn-bg); color: var(--btn-fg);
+  padding: .75rem 1.5rem; border-radius: var(--radius);
+  text-decoration: none; font-weight: 500;
+  transition: background .2s, transform .15s;
+}
+.btn:hover { background: var(--ink); color: var(--bg); transform: translateY(-2px); }
+.links { margin-top: 1rem; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.links a {
+  color: var(--muted); text-decoration: none;
+  display: flex; align-items: center; gap: .4rem;
+  transition: color .2s;
+}
+.links a:hover { color: var(--trace); }
+.links a::before {
+  content: '→'; font-size: .9rem; color: var(--trace);
+  transition: transform .2s;
+}
+.links a:hover::before { transform: translateX(3px); }
+
+/* =========================================================
+   QUOTE / MARQUEE SECTION
+   ========================================================= */
+.quote-section {
+  margin: 4rem 0 0;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.quote-section blockquote {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 3.5vw, 2rem);
+  letter-spacing: -.015em;
+  line-height: 1.35;
+  margin: 0 auto;
+  max-width: 32ch;
+  color: var(--ink);
+  position: relative;
+}
+.quote-section blockquote::before {
+  content: '"';
+  font-size: 4rem;
+  color: var(--trace);
+  opacity: .4;
+  position: absolute;
+  top: -.6em; left: -.15em;
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+.quote-section cite {
+  display: block;
+  margin-top: 1rem;
+  font-style: normal;
+  font-size: .95rem;
+  color: var(--muted);
+  font-family: var(--body);
+  font-weight: 400;
+}
+
+/* scrolling ticker */
+.ticker {
+  margin-top: 2rem;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  padding: .75rem 0;
+  position: relative;
+}
+.ticker::before, .ticker::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 3rem; z-index: 2;
+}
+.ticker::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+.ticker::after  { right: 0; background: linear-gradient(270deg, var(--bg), transparent); }
+.ticker-track {
+  display: flex; gap: 2.5rem;
+  animation: scroll 20s linear infinite;
+  width: max-content;
+}
+.ticker-track span {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: .85rem;
+  color: var(--muted);
+  white-space: nowrap;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.ticker-track span .sep { color: var(--trace); margin: 0 .3rem; }
+@keyframes scroll { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+footer {
+  margin-top: 2rem; padding: 1.5rem 0 2.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: .9rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: .75rem;
+  transition: border-color var(--transition);
+}
+footer .footer-links { display: flex; gap: 1rem; }
+footer .footer-links a { color: var(--muted); text-decoration: none; font-size: .85rem; }
+footer .footer-links a:hover { color: var(--trace); }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 700px) {
+  .row, .about, .feature-grid { grid-template-columns: 1fr; }
+  .portrait { max-width: 14rem; }
+  header.top nav { gap: 1rem; }
+  header.top nav a { font-size: .85rem; }
+  .hero { padding: 3rem 0 2rem; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
+
+/* =========================================================
+   SCROLL REVEAL (subtle fade-in)
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <span>Ajay</span>
+    <span class="logo">⚡ Ajay</span>
     <nav aria-label="Main">
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme">
+        <span class="sr-only">Toggle theme</span>
+      </button>
     </nav>
   </header>
 
   <main>
     <div class="hero">
-      <h1>P Venkata Siva Ajay</h1>
+      <h1>P Venkata <span class="accent">Siva Ajay</span></h1>
       <p class="lead">I build hardware that senses, transmits and moves: drones, light-based links, IoT devices and robots. Electrical engineering student, heading into embedded firmware.</p>
+      <div class="status">
+        <span class="dot"></span>
+        Open to firmware &amp; embedded internships
+      </div>
 
       <div class="signal" role="img" aria-label="The letters A J A Y drawn as a Manchester-encoded digital signal">
         <svg id="wave" viewBox="0 0 1280 140" preserveAspectRatio="none"></svg>
       </div>
-      <p class="caption">The letters “AJAY” as a Manchester-encoded signal, the same line code I used in my LiFi text transmitter.</p>
+      <p class="caption">The letters "AJAY" as a Manchester-encoded signal — the same line code I used in my LiFi text transmitter.</p>
     </div>
 
-    <section id="projects">
+    <section id="projects" class="reveal">
       <h2>Projects</h2>
 
       <div class="feature-grid">
         <article class="card">
           <div class="thumb" data-art="beam" data-img="lifi" data-alt="LiFi text transmitter"></div>
-          <h3>LiFi text transmitter</h3>
-          <p>Sends text over light using Manchester encoding.</p>
-          <ul class="tags"><li>Manchester encoding</li><li>Optical link</li></ul>
+          <div class="card-body">
+            <h3>LiFi text transmitter</h3>
+            <p>Sends text over light using Manchester encoding.</p>
+            <ul class="tags"><li>Manchester encoding</li><li>Optical link</li></ul>
+          </div>
         </article>
 
         <article class="card">
           <div class="thumb" data-art="dome" data-img="helmet" data-alt="IoT smart mining helmet"></div>
-          <h3>IoT smart mining helmet</h3>
-          <p>A wearable that reports data from the helmet to ThingSpeak.</p>
-          <ul class="tags"><li>ESP32</li><li>ThingSpeak</li><li>IoT</li></ul>
+          <div class="card-body">
+            <h3>IoT smart mining helmet</h3>
+            <p>A wearable that reports sensor data from the helmet to ThingSpeak.</p>
+            <ul class="tags"><li>ESP32</li><li>ThingSpeak</li><li>IoT</li></ul>
+          </div>
         </article>
 
         <article class="card">
           <div class="thumb" data-art="rotors" data-img="drone" data-alt="FPV drone"></div>
-          <h3>FPV drone</h3>
-          <p>Built from parts into a flying first-person-view drone.</p>
+          <div class="card-body">
+            <h3>FPV drone</h3>
+            <p>Built from parts into a flying first-person-view drone.</p>
+            <ul class="tags"><li>Flight controller</li><li>FPV</li></ul>
+          </div>
         </article>
 
         <article class="card">
           <div class="thumb" data-art="wheel" data-img="ebike" data-alt="Electric bike"></div>
-          <h3>Electric bike</h3>
-          <p>A bicycle converted to electric drive.</p>
+          <div class="card-body">
+            <h3>Electric bike</h3>
+            <p>A bicycle converted to electric drive.</p>
+            <ul class="tags"><li>Motor control</li><li>EV</li></ul>
+          </div>
         </article>
       </div>
 
@@ -147,6 +506,7 @@ footer{margin-top:4rem;padding:1.5rem 0 2.5rem;border-top:1px solid var(--mist);
         <div>
           <h3>Tesla coil</h3>
           <p>A high-voltage resonant transformer built from scratch.</p>
+          <ul class="tags"><li>High voltage</li><li>Resonance</li></ul>
         </div>
       </div>
 
@@ -155,41 +515,90 @@ footer{margin-top:4rem;padding:1.5rem 0 2.5rem;border-top:1px solid var(--mist);
         <div>
           <h3>Also built</h3>
           <p>A gas detection system, toll gate automation, and ESP32-based robots.</p>
+          <ul class="tags"><li>ESP32</li><li>Sensors</li><li>Automation</li></ul>
         </div>
       </div>
     </section>
 
-    <section id="about" class="about">
+    <section id="about" class="about reveal">
       <h2>About</h2>
       <div class="thumb portrait" data-art="mono" data-img="ajay" data-alt="Portrait of Ajay"></div>
       <div>
         <p>I'm a B.Tech student in Electrical and Electronics Engineering at Godavari Institute of Engineering and Technology (GIET), Rajanagaram, graduating in June 2027. I learn by building, and I'm aiming for firmware engineering work built around STM32 and Embedded C.</p>
         <dl class="facts">
-          <div><dt>Focus</dt><dd>STM32 and Embedded C</dd></div>
+          <div><dt>Focus</dt><dd>STM32 &amp; Embedded C</dd></div>
           <div><dt>Also work with</dt><dd>ESP32, IoT, PCB design</dd></div>
-          <div><dt>Certified</dt><dd>NPTEL: Electronic Systems Design and PCB Design</dd></div>
-          <div><dt>Studying</dt><dd>B.Tech EEE, GIET, class of 2027</dd></div>
+          <div><dt>Certified</dt><dd>NPTEL: Electronic Systems Design &amp; PCB Design</dd></div>
+          <div><dt>Studying</dt><dd>B.Tech EEE, GIET — class of 2027</dd></div>
         </dl>
       </div>
     </section>
 
-    <section id="contact" class="contact">
+    <section id="contact" class="contact reveal">
       <h2>Contact</h2>
       <p>Looking for an embedded or firmware internship. Send me a message about a role, a project or a collaboration.</p>
-      <a class="btn" href="mailto:pvenkatasivaajay@gmail.com">Email me</a>
+      <a class="btn" href="mailto:pvenkatasivaajay@gmail.com">Email me →</a>
       <div class="links">
         <a href="https://github.com/pvenkatasivaajay">GitHub</a>
         <a href="https://www.linkedin.com/in/p-venkata-siva-ajay-969661283">LinkedIn</a>
         <a href="https://youtube.com/@pvenkatasivaajay">YouTube</a>
       </div>
     </section>
+
+    <!-- ===== QUOTE + TICKER ===== -->
+    <div class="quote-section reveal">
+      <blockquote>
+        First, solve the problem. Then, write the code.
+        <cite>— John Johnson</cite>
+      </blockquote>
+
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track" id="ticker"></div>
+      </div>
+    </div>
+
   </main>
 
-  <footer>© <span id="yr">2026</span> P Venkata Siva Ajay</footer>
+  <footer>
+    <span>© <span id="yr">2026</span> P Venkata Siva Ajay</span>
+    <div class="footer-links">
+      <a href="https://github.com/pvenkatasivaajay">GitHub</a>
+      <a href="https://www.linkedin.com/in/p-venkata-siva-ajay-969661283">LinkedIn</a>
+      <a href="https://youtube.com/@pvenkatasivaajay">YouTube</a>
+    </div>
+  </footer>
 </div>
 
 <script>
-/* ---------- hero signal: "AJAY" as Manchester code ---------- */
+/* ========== THEME TOGGLE ========== */
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  var stored = localStorage.getItem('theme');
+  if (stored) html.setAttribute('data-theme', stored);
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+})();
+
+/* ========== SCROLL REVEAL ========== */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add('visible');
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(function(el){ obs.observe(el); });
+})();
+
+/* ========== HERO SIGNAL: "AJAY" Manchester code ========== */
 (function(){
   var text="AJAY", cell=20, hi=24, lo=116, x=0, level=null, d="";
   var svg=document.getElementById("wave");
@@ -225,9 +634,18 @@ footer{margin-top:4rem;padding:1.5rem 0 2.5rem;border-top:1px solid var(--mist);
   document.getElementById("yr").textContent=new Date().getFullYear();
 })();
 
-/* ---------- abstract art for each tile ---------- */
+/* ========== ABSTRACT ART for tiles ========== */
 (function(){
-  var T="#0E5A4F", G="#C99A1E", M="#C9D3CC", I="#10201C";
+  var T, G, M, I;
+  function getColors(){
+    var cs = getComputedStyle(document.documentElement);
+    T = cs.getPropertyValue('--trace').trim() || '#2DD4A8';
+    G = cs.getPropertyValue('--gold').trim() || '#E0AC2B';
+    M = cs.getPropertyValue('--border').trim() || '#263530';
+    I = cs.getPropertyValue('--ink').trim() || '#E4EDE8';
+  }
+  getColors();
+
   function rng(seed){var a=seed;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
   function wrap(inner){return '<svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+inner+'</svg>';}
   var art={
@@ -290,6 +708,20 @@ footer{margin-top:4rem;padding:1.5rem 0 2.5rem;border-top:1px solid var(--mist);
       (function(e,m){m.onload=function(){e.appendChild(m);};})(el,im);
       im.src='images/'+img+'.jpg';}
   }
+})();
+
+/* ========== SCROLLING TICKER ========== */
+(function(){
+  var items = ['ESP32', 'STM32', 'Embedded C', 'PCB Design', 'IoT', 'Manchester Encoding', 'FPV Drones', 'Firmware', 'ThingSpeak', 'Optical Links', 'Motor Control', 'Sensors'];
+  var track = document.getElementById('ticker');
+  var html = '';
+  // duplicate for seamless loop
+  for (var r = 0; r < 2; r++) {
+    for (var i = 0; i < items.length; i++) {
+      html += '<span>' + items[i] + (i < items.length - 1 || r === 0 ? ' <span class="sep">•</span>' : '') + '</span>';
+    }
+  }
+  track.innerHTML = html;
 })();
 </script>
 </body>
